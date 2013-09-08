@@ -6,13 +6,13 @@ ssh:
     - require:
       - pkg: ssh
     - watch:
-      - file: /etc/ssh/ssh_config
+      - file: /etc/ssh/sshd_config
 
 
-/etc/ssh/ssh_config:
+/etc/ssh/sshd_config:
   file:
     - managed
-    - source: salt://ssh/ssh_config
+    - source: salt://ssh/sshd_config
     - mode: '0644'
     - user: root
     - group: root
