@@ -15,6 +15,8 @@ include:
     - home: /home/{{ hungryadmin_user }}
     - uid: 2150
     - gid: 2150
+    - groups:
+      - sudo
     - require:
       - group: {{ hungryadmin_user }}
   group:
