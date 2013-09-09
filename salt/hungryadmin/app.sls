@@ -28,6 +28,7 @@ hungryadmin_venv:
     - runas: {{ hungryadmin_user }}
     - require:
       - pkg: python-virtualenv
+      - user: {{ hungryadmin_user }}
 
 hungryadmin:
   git:
