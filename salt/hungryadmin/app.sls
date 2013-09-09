@@ -8,6 +8,19 @@ include:
   - python.pip
   - python.virtualenv
 
+{{ hungryadmin_user }}:
+  user:
+    - present
+    - shell: /bin/bash
+    - home: /home/{{ hungryadmin_user }}
+    - uid: 2150
+    - gid: 2150
+    - require:
+      - group: {{ hungryadmin_user }}
+  group:
+    - present
+    - gid: 2150
+
 hungryadmin_venv:
   virtualenv:
     - managed
