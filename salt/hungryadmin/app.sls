@@ -1,6 +1,7 @@
 {% set hungryadmin_venv = salt['pillar.get']('hungryadmin:venv') %}
 {% set hungryadmin_proj = salt['pillar.get']('hungryadmin:proj') %}
 {% set hungryadmin_user = salt['pillar.get']('hungryadmin:user') %}
+{% set hungryadmin_theme = salt['pillar.get']('hungryadmin:theme') %}
 
 include:
   - git
@@ -44,6 +45,20 @@ hungryadmin:
       - virtualenv: hungryadmin_venv
     - watch_in:
       - service: nginx
+
+hungryadmin_theme:
+  git:
+    - latest
+    - name: https://github.com/gravyboat/pelican-bootstrap3.git
+    - target: {{ hungryadmin_theme }}
+    - runas: {{ hungryadmin_user }}
+    - force: True
+    - require:
+      - virtualenv: hungryadmin_venv
+      - git: hungryadmin
+    - watch_in:
+      - service: nginx
+
 
 hungryadmin_pkgs:
   pip:
