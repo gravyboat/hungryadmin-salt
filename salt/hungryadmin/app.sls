@@ -40,6 +40,7 @@ hungryadmin:
     - target: {{ hungryadmin_proj }}
     - runas: {{ hungryadmin_user }}
     - force: True
+    - force_checkout: True
     - require:
       - pkg: git
       - virtualenv: hungryadmin_venv
@@ -53,6 +54,7 @@ hungryadmin_theme:
     - target: {{ hungryadmin_theme }}
     - runas: {{ hungryadmin_user }}
     - force: True
+    - force_checkout: True
     - require:
       - virtualenv: hungryadmin_venv
       - git: hungryadmin
