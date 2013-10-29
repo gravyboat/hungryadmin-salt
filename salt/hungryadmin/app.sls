@@ -67,6 +67,7 @@ hungryadmin_pkgs:
     - installed
     - bin_env: {{ hungryadmin_venv }}
     - requirements: {{ hungryadmin_proj }}/requirements.txt
+    - runas: {{ hungryadmin_user }}
     - require:
       - git: hungryadmin
       - pkg: python-pip
