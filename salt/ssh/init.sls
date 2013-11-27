@@ -1,8 +1,12 @@
+{% from "ssh/map.jinja" import ssh with context %}
+
 ssh:
   pkg:
     - installed
   service:
     - running
+    - enable: True
+    - name: {{ ssh.service }}
     - require:
       - pkg: ssh
     - watch:
