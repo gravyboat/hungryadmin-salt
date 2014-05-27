@@ -47,6 +47,16 @@ hungryadmin:
     - watch_in:
       - service: nginx
 
+refresh_pelican:
+  cmd:
+    - run
+    - user: {{ hungryadmin_user }}
+    - name: {{ hungryadmin_venv }}/bin/pelican -s {{hungryadmin_proj}}/pelicanconf.py
+    - require:
+      - virtualenv: hungryadmin_venv
+    - watch:
+      - git: hungryadmin
+
 hungryadmin_theme:
   git:
     - latest
