@@ -101,7 +101,7 @@ hungryadmin_nginx_conf:
 site_favicon:
   file:
     - managed
-    - name: {{ hungryadmin_root }}/favicon.ico
+    - name: {{ salt['pillar.get']('hungryadmin:root') }}/favicon.ico
     - source: salt://hungryadmin/files/favicon.ico
     - template: jinja
     - user: {{ hungryadmin_user }}
