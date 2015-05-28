@@ -83,13 +83,29 @@ hungryadmin_pkgs:
       - pkg: python-pip
       - virtualenv: hungryadmin_venv
 
-/etc/nginx/conf.d/hungryadmin.conf:
+hungryadmin_nginx_conf:
   file:
     - managed
+    - name: /etc/nginx/conf.d/hungryadmin.conf
     - source: salt://hungryadmin/files/hungryadmin.conf
     - template: jinja
     - user: root
     - group: root
+    - mode: 644
+    - require:
+      - git: hungryadmin
+      - pkg: nginx
+    - watch_in:
+      - service: nginx
+
+site_favicon:
+  file:
+    - managed
+    - name: {{ hungryadmin_proj }}/favicon.ico
+    - source: salt://hungryadmin/files/favicon.ico
+    - template: jinja
+    - user: {{ hungryadmin_user }}
+    - group: {{ hungryadmin_user }}
     - mode: 644
     - require:
       - git: hungryadmin
