@@ -1,5 +1,5 @@
 base:
-  'hungryadminprod':
+  'hungryadminprod2':
     - nginx
     - fail2ban
     - ssh

@@ -2,7 +2,7 @@
 
 install_ssh:
   pkg.installed:
-    - name: ssh
+    - name: {{ ssh.client }}
 
 ssh_service:
   service.running:

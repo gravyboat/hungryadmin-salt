@@ -1,0 +1,10 @@
+{% set hungryadmin = salt['grains.filter_by']({
+    'Debian': {
+        'group': 'sudo',
+        'nginx_user': 'www-data',
+    },
+    'RedHat': {
+        'group': 'wheel',
+        'nginx_user': 'nginx',
+    },
+}, merge=salt['pillar.get']('hungryadmin:lookup')) %}
