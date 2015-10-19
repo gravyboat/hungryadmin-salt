@@ -29,7 +29,7 @@ hungryadmin_venv:
     - runas: {{ hungryadmin_user }}
     - require:
       - pkg: install_python_virtualenv
-      - user: {{ hungryadmin_user }}
+      - user: {{ hungryadmin_user }}_user
 
 hungryadmin_git:
   git.latest:
