@@ -9,7 +9,7 @@ include:
   - python.pip
   - python.virtualenv
 
-{{ hungryadmin_user }}_user:
+{{ hungryadmin_user }}:
   user.present:
     - name: {{ hungryadmin_user }}
     - shell: /bin/bash
@@ -19,7 +19,7 @@ include:
     - groups:
       - sudo
     - require:
-      - group: {{ hungryadmin_user }}_user
+      - group: {{ hungryadmin_user }}
   group.present:
     - gid: 2150
 
@@ -29,7 +29,7 @@ hungryadmin_venv:
     - runas: {{ hungryadmin_user }}
     - require:
       - pkg: install_python_virtualenv
-      - user: {{ hungryadmin_user }}_user
+      - user: {{ hungryadmin_user }}
 
 hungryadmin_git:
   git.latest:
