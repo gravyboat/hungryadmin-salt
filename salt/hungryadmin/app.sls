@@ -19,7 +19,7 @@ include:
     - groups:
       - sudo
     - require:
-      - group: {{ hungryadmin_user }}
+      - group: {{ hungryadmin_user }}_user
   group.present:
     - gid: 2150
 
