@@ -1,8 +1,9 @@
-nginx:
-  pkg:
-    - installed
-  service:
-    - running
+install_nginx:
+  pkg.installed:
+    - name: nginx
+
+nginx_service:
+  service.running:
     - enable: True
     - reload: True
 
@@ -14,4 +15,4 @@ nginx_config:
     - group: root
     - mode: 644
     - watch_in:
-      - service: nginx
+      - service: nginx_service

@@ -9,9 +9,9 @@ include:
   - python.pip
   - python.virtualenv
 
-{{ hungryadmin_user }}:
-  user:
-    - present
+{{ hungryadmin_user }}_user:
+  user.present:
+    - name: {{ hungryadmin_user }}
     - shell: /bin/bash
     - home: /home/{{ hungryadmin_user }}
     - uid: 2150
@@ -20,46 +20,41 @@ include:
       - sudo
     - require:
       - group: {{ hungryadmin_user }}
-  group:
-    - present
+  group.present:
     - gid: 2150
 
 hungryadmin_venv:
-  virtualenv:
-    - managed
+  virtualenv.managed:
     - name: {{ hungryadmin_venv }}
     - runas: {{ hungryadmin_user }}
     - require:
-      - pkg: python-virtualenv
+      - pkg: install_python_virtualenv
       - user: {{ hungryadmin_user }}
 
-hungryadmin:
-  git:
-    - latest
+hungryadmin_git:
+  git.latest:
     - name: https://github.com/gravyboat/hungryadmin.git
     - target: {{ hungryadmin_proj }}
     - runas: {{ hungryadmin_user }}
     - force: True
     - force_checkout: True
     - require:
-      - pkg: git
+      - pkg: install_git
       - virtualenv: hungryadmin_venv
     - watch_in:
-      - service: nginx
+      - service: nginx_service
 
 refresh_pelican:
-  cmd:
-    - run
+  cmd.run:
     - user: {{ hungryadmin_user }}
     - name: {{ hungryadmin_venv }}/bin/pelican -s {{hungryadmin_proj}}/pelicanconf.py
     - require:
       - virtualenv: hungryadmin_venv
     - watch:
-      - git: hungryadmin
+      - git: hungryadmin_git
 
 hungryadmin_theme:
-  git:
-    - latest
+  git.latest:
     - name: https://github.com/gravyboat/pelican-bootstrap3.git
     - target: {{ hungryadmin_theme }}
     - runas: {{ hungryadmin_user }}
@@ -67,25 +62,23 @@ hungryadmin_theme:
     - force_checkout: True
     - require:
       - virtualenv: hungryadmin_venv
-      - git: hungryadmin
+      - git: hungryadmin_git
     - watch_in:
-      - service: nginx
+      - service: nginx_service
 
 
 hungryadmin_pkgs:
-  pip:
-    - installed
+  pip.installed:
     - bin_env: {{ hungryadmin_venv }}
     - requirements: {{ hungryadmin_proj }}/requirements.txt
     - runas: {{ hungryadmin_user }}
     - require:
-      - git: hungryadmin
-      - pkg: python-pip
+      - git: hungryadmin_git
+      - pkg: install_python_pip
       - virtualenv: hungryadmin_venv
 
 hungryadmin_nginx_conf:
-  file:
-    - managed
+  file.managed:
     - name: /etc/nginx/conf.d/hungryadmin.conf
     - source: salt://hungryadmin/files/hungryadmin.conf
     - template: jinja
@@ -93,14 +86,13 @@ hungryadmin_nginx_conf:
     - group: root
     - mode: 644
     - require:
-      - git: hungryadmin
-      - pkg: nginx
+      - git: hungryadmin_git
+      - pkg: install_nginx
     - watch_in:
-      - service: nginx
+      - service: nginx_service
 
 site_favicon:
-  file:
-    - managed
+  file.managed:
     - name: {{ salt['pillar.get']('hungryadmin:root') }}/favicon.ico
     - source: salt://hungryadmin/files/favicon.ico
     - template: jinja
@@ -108,11 +100,13 @@ site_favicon:
     - group: {{ hungryadmin_user }}
     - mode: 644
     - require:
-      - git: hungryadmin
-      - pkg: nginx
+      - git: hungryadmin_git
+      - pkg: install_nginx
     - watch_in:
-      - service: nginx
+      - service: nginx_service
 
-/etc/nginx/sites-enabled/default:
-  file:
-    - absent
+remove_default_sites_enabled:
+  file.absent:
+    - name: /etc/nginx/sites-enabled/default
+    - watch_in:
+      - service: nginx_service

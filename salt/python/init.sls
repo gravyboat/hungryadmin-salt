@@ -1,3 +1,3 @@
-python:
-  pkg:
-    - installed
+install_python:
+  pkg.installed:
+    - name: python

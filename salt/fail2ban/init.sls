@@ -1,9 +1,11 @@
-fail2ban:
-  pkg:
-    - installed
-  service:
-    - running
+install_fail2ban:
+  pkg.installed:
+    - name: fail2ban
+
+fail2ban_service:
+  service.running:
+    - name: fail2ban
     - watch:
-      - pkg: fail2ban
+      - pkg: install_fail2ban
     - require:
-      - pkg: fail2ban
+      - pkg: install_fail2ban

@@ -1,24 +1,24 @@
 {% from "ssh/map.jinja" import ssh with context %}
 
-ssh:
-  pkg:
-    - installed
-  service:
-    - running
+install_ssh:
+  pkg.installed:
+    - name: ssh
+
+ssh_service:
+  service.running:
     - enable: True
     - name: {{ ssh.service }}
     - require:
-      - pkg: ssh
+      - pkg: install_ssh
     - watch:
-      - file: /etc/ssh/sshd_config
+      - file: sshd_config
 
-
-/etc/ssh/sshd_config:
-  file:
-    - managed
+sshd_config:
+  file.managed:
+    - name: /etc/ssh/sshd_config
     - source: salt://ssh/sshd_config
     - mode: '0644'
     - user: root
     - group: root
     - require:
-      - pkg: ssh
+      - pkg: install_ssh
