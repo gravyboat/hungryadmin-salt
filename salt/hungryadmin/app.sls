@@ -1,3 +1,5 @@
+{% from "hungryadmin/map.jinja" import hungryadmin with context %}
+
 {% set hungryadmin_venv = salt['pillar.get']('hungryadmin:venv') %}
 {% set hungryadmin_proj = salt['pillar.get']('hungryadmin:proj') %}
 {% set hungryadmin_user = salt['pillar.get']('hungryadmin:user') %}
@@ -17,7 +19,7 @@ include:
     - uid: 2150
     - gid: 2150
     - groups:
-      - sudo
+      - {{ hungryadmin.group }}
     - require:
       - group: {{ hungryadmin_user }}
   group.present:
@@ -26,7 +28,7 @@ include:
 hungryadmin_venv:
   virtualenv.managed:
     - name: {{ hungryadmin_venv }}
-    - runas: {{ hungryadmin_user }}
+    - user: {{ hungryadmin_user }}
     - require:
       - pkg: install_python_virtualenv
       - user: {{ hungryadmin_user }}
@@ -35,7 +37,7 @@ hungryadmin_git:
   git.latest:
     - name: https://github.com/gravyboat/hungryadmin.git
     - target: {{ hungryadmin_proj }}
-    - runas: {{ hungryadmin_user }}
+    - user: {{ hungryadmin_user }}
     - force: True
     - force_checkout: True
     - require:
@@ -57,7 +59,7 @@ hungryadmin_theme:
   git.latest:
     - name: https://github.com/gravyboat/pelican-bootstrap3.git
     - target: {{ hungryadmin_theme }}
-    - runas: {{ hungryadmin_user }}
+    - user: {{ hungryadmin_user }}
     - force: True
     - force_checkout: True
     - require:
@@ -71,7 +73,7 @@ hungryadmin_pkgs:
   pip.installed:
     - bin_env: {{ hungryadmin_venv }}
     - requirements: {{ hungryadmin_proj }}/requirements.txt
-    - runas: {{ hungryadmin_user }}
+    - user: {{ hungryadmin_user }}
     - require:
       - git: hungryadmin_git
       - pkg: install_python_pip
