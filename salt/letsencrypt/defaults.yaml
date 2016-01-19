@@ -1,0 +1,4 @@
+# -*- coding: utf-8 -*-
+# vim: ft=yaml
+letsencrypt:
+  cli_install_dir: /opt/letsencrypt
