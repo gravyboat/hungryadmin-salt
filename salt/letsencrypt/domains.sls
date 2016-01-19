@@ -6,7 +6,7 @@
 {%
   for setname, domainlist in salt['pillar.get'](
     'letsencrypt:domainsets'
-  ).iteritems()
+  ).items()
 %}
 create-initial-cert-{{ setname }}-{{ domainlist | join('+') }}:
   cmd.run:
