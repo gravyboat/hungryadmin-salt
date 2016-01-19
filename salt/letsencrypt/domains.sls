@@ -3,11 +3,7 @@
 
 {% from "letsencrypt/map.jinja" import letsencrypt with context %}
 
-{%
-  for setname, domainlist in salt['pillar.get'](
-    'letsencrypt:domainsets'
-  ).items()
-%}
+{% for setname, domainlist in salt['pillar.get']('letsencrypt:domainsets').items() %}
 create-initial-cert-{{ setname }}-{{ domainlist | join('+') }}:
   cmd.run:
     - unless: >
