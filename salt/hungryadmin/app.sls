@@ -38,7 +38,7 @@ hungryadmin_git:
     - name: https://github.com/gravyboat/hungryadmin.git
     - target: {{ hungryadmin_proj }}
     - user: {{ hungryadmin_user }}
-    - force: True
+    - force_clone: True
     - force_reset: True
     - force_checkout: True
     - require:

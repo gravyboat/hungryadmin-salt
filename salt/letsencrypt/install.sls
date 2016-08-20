@@ -6,4 +6,5 @@
 letsencrypt-client-git:
   git.latest:
     - name: https://github.com/letsencrypt/letsencrypt
+    - force_reset: True
     - target: {{ letsencrypt.cli_install_dir }}
