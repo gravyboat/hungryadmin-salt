@@ -49,7 +49,7 @@ hungryadmin_git:
 
 refresh_pelican:
   cmd.run:
-    - user: {{ hungryadmin_user }}
+    - runas: {{ hungryadmin_user }}
     - name: {{ hungryadmin_venv }}/bin/pelican -s {{hungryadmin_proj}}/pelicanconf.py
     - require:
       - virtualenv: hungryadmin_venv
@@ -61,7 +61,7 @@ hungryadmin_theme:
     - name: https://github.com/gravyboat/pelican-bootstrap3.git
     - target: {{ hungryadmin_theme }}
     - user: {{ hungryadmin_user }}
-    - force: True
+    - force_clone: True
     - force_checkout: True
     - require:
       - virtualenv: hungryadmin_venv
