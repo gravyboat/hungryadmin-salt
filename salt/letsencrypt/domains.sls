@@ -30,7 +30,7 @@ letsencrypt-crontab-{{ setname }}-{{ domainlist[0] }}:
   cron.present:
     - name: {{
           letsencrypt.cli_install_dir
-        }}/letsencrypt-auto -d {{ domainlist|join(' -d ') }} certonly; service nginx reload
+        }}/letsencrypt-auto -d {{ domainlist|join(' -d ') }} certonly && service nginx reload
     - month: '*/2'
     - minute: random
     - hour: random
