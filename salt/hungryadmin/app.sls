@@ -39,6 +39,7 @@ hungryadmin_git:
     - target: {{ hungryadmin_proj }}
     - user: {{ hungryadmin_user }}
     - force: True
+    - force_reset: True
     - force_checkout: True
     - require:
       - pkg: install_git
