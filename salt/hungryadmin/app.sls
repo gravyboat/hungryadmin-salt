@@ -29,6 +29,7 @@ hungryadmin_venv:
   virtualenv.managed:
     - name: {{ hungryadmin_venv }}
     - user: {{ hungryadmin_user }}
+    - pip_upgrade: True
     - require:
       - pkg: install_python_virtualenv
       - user: {{ hungryadmin_user }}
@@ -58,7 +59,7 @@ refresh_pelican:
 
 hungryadmin_theme:
   git.latest:
-    - name: https://github.com/gravyboat/pelican-bootstrap3.git
+    - name: https://github.com/getpelican/pelican-themes.git
     - target: {{ hungryadmin_theme }}
     - user: {{ hungryadmin_user }}
     - force_clone: True
