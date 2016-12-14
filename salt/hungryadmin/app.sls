@@ -35,9 +35,10 @@ hungryadmin_venv:
       - user: {{ hungryadmin_user }}
 
 hungryadmin_git:
-  git.latest:
+  git.detached:
     - name: https://github.com/gravyboat/hungryadmin.git
     - target: {{ hungryadmin_proj }}
+    - ref: be36234f9f7fb4633d7e2eee89833839d7cbf1eb
     - user: {{ hungryadmin_user }}
     - force_clone: True
     - force_reset: True
