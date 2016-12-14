@@ -41,7 +41,6 @@ hungryadmin_git:
     - ref: be36234f9f7fb4633d7e2eee89833839d7cbf1eb
     - user: {{ hungryadmin_user }}
     - force_clone: True
-    - force_reset: True
     - force_checkout: True
     - require:
       - pkg: install_git
