@@ -35,11 +35,11 @@ hungryadmin_venv:
       - user: {{ hungryadmin_user }}
 
 hungryadmin_git:
-  git.detached:
+  git.latest:
     - name: https://github.com/gravyboat/hungryadmin.git
     - target: {{ hungryadmin_proj }}
-    - ref: be36234f9f7fb4633d7e2eee89833839d7cbf1eb
     - user: {{ hungryadmin_user }}
+    - force_reset: True
     - force_clone: True
     - force_checkout: True
     - require:
@@ -58,10 +58,11 @@ refresh_pelican:
       - git: hungryadmin_git
 
 hungryadmin_theme:
-  git.latest:
+  git.detached:
     - name: https://github.com/getpelican/pelican-themes.git
     - target: {{ hungryadmin_theme }}
     - user: {{ hungryadmin_user }}
+    - ref: be36234f9f7fb4633d7e2eee89833839d7cbf1eb
     - force_clone: True
     - force_checkout: True
     - require:
