@@ -78,6 +78,7 @@ hungryadmin_pelican_plugins:
     - target: {{ hungryadmin_plugin }}
     - user: {{ hungryadmin_user }}
     - require:
+      - pkg: install_git
       - virtualenv: hungryadmin_venv
       - git: hungryadmin_git
     - watch_in:
