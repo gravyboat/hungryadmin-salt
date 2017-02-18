@@ -49,15 +49,6 @@ hungryadmin_git:
     - watch_in:
       - service: nginx_service
 
-refresh_pelican:
-  cmd.run:
-    - runas: {{ hungryadmin_user }}
-    - name: {{ hungryadmin_venv }}/bin/pelican -s {{hungryadmin_proj}}/pelicanconf.py
-    - require:
-      - virtualenv: hungryadmin_venv
-    - watch:
-      - git: hungryadmin_git
-
 hungryadmin_theme:
   git.detached:
     - name: https://github.com/getpelican/pelican-themes.git
@@ -84,6 +75,11 @@ hungryadmin_pelican_plugins:
     - watch_in:
       - service: nginx_service
 
+hungryadmin_remove_messy_plugins:
+  cmd.run:
+    - name: find . ! -name 'assets' -type d -exec rm -rf {} +
+    - cwd: {{ hungryadmin_plugin }}
+
 hungryadmin_pkgs:
   pip.installed:
     - bin_env: {{ hungryadmin_venv }}
@@ -93,6 +89,16 @@ hungryadmin_pkgs:
       - git: hungryadmin_git
       - pkg: install_python_pip
       - virtualenv: hungryadmin_venv
+
+refresh_pelican:
+  cmd.run:
+    - runas: {{ hungryadmin_user }}
+    - name: {{ hungryadmin_venv }}/bin/pelican -s {{hungryadmin_proj}}/pelicanconf.py
+    - require:
+      - virtualenv: hungryadmin_venv
+      - cmd: hungryadmin_remove_messy_plugins
+    - watch:
+      - git: hungryadmin_git
 
 hungryadmin_nginx_conf:
   file.managed:
