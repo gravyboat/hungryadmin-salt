@@ -4,6 +4,7 @@
 {% set hungryadmin_proj = salt['pillar.get']('hungryadmin:proj') %}
 {% set hungryadmin_user = salt['pillar.get']('hungryadmin:user') %}
 {% set hungryadmin_theme = salt['pillar.get']('hungryadmin:theme') %}
+{% set hungryadmin_plugin = salt['pillar.get']('hungryadmin:plugin') %}
 
 include:
   - git
@@ -71,6 +72,16 @@ hungryadmin_theme:
     - watch_in:
       - service: nginx_service
 
+hungryadmin_pelican_plugins:
+  git.latest:
+    - name: https://github.com/getpelican/pelican-plugins.git
+    - target: {{ hungryadmin_plugin }}
+    - user: {{ hungryadmin_user }}
+    - require:
+      - virtualenv: hungryadmin_venv
+      - git: hungryadmin_git
+    - watch_in:
+      - service: nginx_service
 
 hungryadmin_pkgs:
   pip.installed:
