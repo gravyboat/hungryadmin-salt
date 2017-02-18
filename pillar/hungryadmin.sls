@@ -13,5 +13,6 @@ hungryadmin:
   venv: {{ hungryadmin_venv }}
   proj: {{ hungryadmin_proj }}
   theme: {{ hungryadmin_theme }}
+  plugin: {{ hungryadmin_plugin }}
   url: {{ hungryadmin_url }}
   root: {{ hungryadmin_root }}
