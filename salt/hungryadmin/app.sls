@@ -4,7 +4,6 @@
 {% set hungryadmin_proj = salt['pillar.get']('hungryadmin:proj') %}
 {% set hungryadmin_user = salt['pillar.get']('hungryadmin:user') %}
 {% set hungryadmin_theme = salt['pillar.get']('hungryadmin:theme') %}
-{% set hungryadmin_plugin = salt['pillar.get']('hungryadmin:plugin') %}
 
 include:
   - git
@@ -63,40 +62,12 @@ hungryadmin_theme:
     - watch_in:
       - service: nginx_service
 
-hungryadmin_pelican_plugins:
-  git.latest:
-    - name: https://github.com/getpelican/pelican-plugins.git
-    - target: {{ hungryadmin_plugin }}
-    - user: {{ hungryadmin_user }}
-    - require:
-      - pkg: install_git
-      - virtualenv: hungryadmin_venv
-      - git: hungryadmin_git
-    - watch_in:
-      - service: nginx_service
-
-hungryadmin_remove_messy_plugins:
-  cmd.run:
-    - name: find . ! -name 'assets' -type d -exec rm -rf {} +
-    - cwd: {{ hungryadmin_plugin }}
-
-hungryadmin_pkgs:
-  pip.installed:
-    - bin_env: {{ hungryadmin_venv }}
-    - requirements: {{ hungryadmin_proj }}/requirements.txt
-    - user: {{ hungryadmin_user }}
-    - require:
-      - git: hungryadmin_git
-      - pkg: install_python_pip
-      - virtualenv: hungryadmin_venv
-
 refresh_pelican:
   cmd.run:
     - runas: {{ hungryadmin_user }}
     - name: {{ hungryadmin_venv }}/bin/pelican -s {{hungryadmin_proj}}/pelicanconf.py
     - require:
       - virtualenv: hungryadmin_venv
-      - cmd: hungryadmin_remove_messy_plugins
     - watch:
       - git: hungryadmin_git
 
