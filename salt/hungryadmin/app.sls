@@ -49,11 +49,11 @@ hungryadmin_git:
       - service: nginx_service
 
 hungryadmin_theme:
-  git.detached:
-    - name: https://github.com/getpelican/pelican-themes.git
+  git.latest:
+    - name: https://github.com/gravyboat/pelican-themes.git
     - target: {{ hungryadmin_theme }}
     - user: {{ hungryadmin_user }}
-    - ref: be36234f9f7fb4633d7e2eee89833839d7cbf1eb
+    - force_reset: True
     - force_clone: True
     - force_checkout: True
     - require:
