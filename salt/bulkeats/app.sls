@@ -79,7 +79,7 @@ bulkeats_pkgs:
       - pkg: install_python_pip
       - virtualenv: bulkeats_venv
 
-refresh_pelican:
+bulkeats_refresh_pelican:
   cmd.run:
     - runas: {{ bulkeats_user }}
     - name: {{ bulkeats_venv }}/bin/pelican -s {{bulkeats_proj}}/pelicanconf.py
@@ -93,7 +93,7 @@ bulkeats_copy_images:
     - name: cp -r {{ bulkeats_proj }}/content/images/ {{ bulkeats_proj }}/output/
     - runas: {{ bulkeats_user }}
     - require:
-      - cmd: refresh_pelican
+      - cmd: bulkeats_refresh_pelican
 
 
 bulkeats_nginx_conf:
@@ -110,7 +110,7 @@ bulkeats_nginx_conf:
     - watch_in:
       - service: nginx_service
 
-site_favicon:
+bulkeats_site_favicon:
   file.managed:
     - name: {{ salt['pillar.get']('bulkeats:root') }}/favicon.ico
     - source: salt://bulkeats/files/favicon.ico
@@ -121,11 +121,5 @@ site_favicon:
     - require:
       - git: bulkeats_git
       - pkg: install_nginx
-    - watch_in:
-      - service: nginx_service
-
-remove_default_sites_enabled:
-  file.absent:
-    - name: /etc/nginx/sites-enabled/default
     - watch_in:
       - service: nginx_service
