@@ -2,3 +2,4 @@ base:
   '*':
     - hungryadmin
     - letsencrypt
+    - bulkeats

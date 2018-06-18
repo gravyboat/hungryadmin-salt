@@ -7,3 +7,4 @@ base:
     - letsencrypt.config
     - letsencrypt.domains
     - hungryadmin.app
+    - bulkeats.app
