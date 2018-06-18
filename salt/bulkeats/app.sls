@@ -16,14 +16,14 @@ include:
     - name: {{ bulkeats_user }}
     - shell: /bin/bash
     - home: /home/{{ bulkeats_user }}
-    - uid: 2150
-    - gid: 2150
+    - uid: 2151
+    - gid: 2151
     - groups:
       - {{ bulkeats.group }}
     - require:
       - group: {{ bulkeats_user }}
   group.present:
-    - gid: 2150
+    - gid: 2151
 
 bulkeats_venv:
   virtualenv.managed:
