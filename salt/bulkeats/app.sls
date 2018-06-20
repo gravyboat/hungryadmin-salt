@@ -11,6 +11,10 @@ include:
   - python.pip
   - python.virtualenv
 
+install_certbot:
+  pkg.installed:
+    - name: certbot
+
 {{ bulkeats_user }}:
   user.present:
     - name: {{ bulkeats_user }}
@@ -123,3 +127,14 @@ bulkeats_site_favicon:
       - pkg: install_nginx
     - watch_in:
       - service: nginx_service
+
+bulkeats_ssl_certbot_cron:
+  file.managed:
+    - name: /etc/cron.d/certbot
+    - contents:
+      - 0 */12 * * * root test -x /usr/bin/certbot && perl -e 'sleep int(rand(3600))' && certbot renew; service nginx reload
+    - user: root
+    - group: root
+    - mode: 644
+    - require:
+      - pkg: certbot
