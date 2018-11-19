@@ -130,7 +130,7 @@ bulkeats_site_favicon:
 
 bulkeats_ssl_certbot_cron:
   file.managed:
-    - name: /etc/cron.d/certbot
+    - name: /etc/cron.d/certbot-bulkeats
     - contents:
       - 0 */12 * * * root test -x /usr/bin/certbot && perl -e 'sleep int(rand(3600))' && certbot renew --cert-name bulkeats.com --webroot -w /home/bulk/bulkeats/site/output; service nginx reload
     - user: root
