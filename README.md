@@ -1,4 +1,4 @@
-hungryadmin-salt
-================
+⚠️ DEPRECATED ⚠️ hungryadmin-salt
+==================================
 
 The hungryadmin.com Salt state repo.
